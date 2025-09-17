@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Travel Planner Platform",
-  description: "Your personal AI travel assistant — automatically create smart, customized itineraries based on your preferences, budget, and purpose. Discover the world without the hassle of planning.",
+  description:
+    "Your personal AI travel assistant — automatically create smart, customized itineraries based on your preferences, budget, and purpose. Discover the world without the hassle of planning.",
 };
 
 export default function RootLayout({
@@ -25,15 +26,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+  if (!publishableKey) {
+    throw new Error(
+      "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY environment variable"
+    );
+  }
+
   return (
-     <ClerkProvider>
+    <ClerkProvider publishableKey={publishableKey}>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-          </header>
-          <Header/>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <header className="flex justify-end items-center p-4 gap-4 h-16"></header>
+          <Header />
           {children}
-          <Footer/>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
