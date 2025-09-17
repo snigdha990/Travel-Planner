@@ -8,6 +8,7 @@ import { AuroraText } from "@/components/magicui/aurora-text";
 import { Marquee } from "@/components/magicui/marquee";
 import Image from "next/image";
 import { type StaticImageData } from "next/image";
+import ReactMarkdown from "react-markdown";
 
 import img1 from '../../../public/images/Peyto-Lake-Banff-National-Park.jpeg'
 import img2 from '../../../public/images/The-Most-Beautiful-Places-to-Visit-in-Santorini-Greece.webp'
@@ -99,7 +100,8 @@ export default function TravelPlannerPage() {
         food_budget: "",
     });
 
-    const [itinerary, setItinerary] = useState<Itinerary[] | null>(null);
+    // const [itinerary, setItinerary] = useState<Itinerary[] | null>(null);
+    const [itinerary, setItinerary] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -119,6 +121,7 @@ export default function TravelPlannerPage() {
                 "https://ai-travel-planner-977121587860.europe-west1.run.app/generate-travel-plan",
                 form
             );
+            console.log("API RESPONSE:", response.data);
             setItinerary(response.data.itinerary);
         } catch (err) {
             setError(
@@ -197,7 +200,7 @@ export default function TravelPlannerPage() {
 
                 {error && <p className="text-red-500 font-medium">{error}</p>}
 
-                {itinerary && (
+                {/* {itinerary && (
                     <div className="mt-10 space-y-6">
                         <h2 className="text-2xl font-semibold">
                             🗺️ Your Day-by-Day Itinerary
@@ -218,6 +221,14 @@ export default function TravelPlannerPage() {
                             </div>
                         ))}
                     </div>
+                )} */}
+                {itinerary && (
+                <div className="mt-10 space-y-6">
+                    <h2 className="text-2xl font-semibold">🗺️ Your Day-by-Day Itinerary</h2>
+                    <div className="prose prose-lg max-w-none">
+                    <ReactMarkdown>{itinerary}</ReactMarkdown>
+                    </div>
+                </div>
                 )}
             </div>
 
